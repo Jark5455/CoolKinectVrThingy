@@ -5,3 +5,22 @@ version = 3
 [[package]]
 name = "CoolKinectVrThingy"
 version = "0.1.0"
+dependencies = [
+ "nite2-sys",
+ "openni2-sys",
+]
+
+[[package]]
+name = "nite2-sys"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "01162e6a7b39febca34e897270e2f95229971e496e4d45cb1bc97db3c46a8ed1"
+dependencies = [
+ "openni2-sys",
+]
+
+[[package]]
+name = "openni2-sys"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "40564aea667e36410c592a5e2cdf07b8b9c9cf48adeb53e4a96de32afaeb518c"
