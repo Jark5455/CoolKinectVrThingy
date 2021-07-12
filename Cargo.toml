@@ -10,6 +10,3 @@ build = "build.rs"
 termios = "0.3.3"
 libc = "0.2.98"
 libc-stdhandle = "0.1.0"
-
-[build]
-rustflags = ["-L", "/usr/local/lib/libnite2.so", "-L", "/usr/local/lib/libOpenNI2.so"]

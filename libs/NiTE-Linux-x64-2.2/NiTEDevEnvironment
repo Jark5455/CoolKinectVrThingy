@@ -1,0 +1,2 @@
+export NITE2_INCLUDE=/opt/kinect/NITE-2.2-α/NiTE-Linux-x64-2.2/Include
+export NITE2_REDIST64=/opt/kinect/NITE-2.2-α/NiTE-Linux-x64-2.2/Redist

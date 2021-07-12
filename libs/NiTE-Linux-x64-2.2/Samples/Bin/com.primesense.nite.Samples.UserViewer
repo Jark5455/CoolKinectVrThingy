@@ -1,0 +1,1 @@
+LD_LIBRARY_PATH=. java -Djava.library.path=. -jar com.primesense.nite.Samples.UserViewer.jar
