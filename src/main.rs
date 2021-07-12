@@ -55,8 +55,7 @@ fn main() {
             continue;
         }
 
-        let users = userTrackerFrame.pUser;
-        dbg!(users);
+        dbg!(userTrackerFrame.userCount);
 
     }
 }
