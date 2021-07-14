@@ -1,5 +1,6 @@
 mod NiTE;
 
+use NiTE::NiteUserData;
 use NiTE::NiteUserTracker;
 use NiTE::NiteUserTrackerHandle;
 use NiTE::NiteStatus;
@@ -8,6 +9,7 @@ use NiTE::niteInitializeUserTracker;
 use NiTE::NiteStatus_NITE_STATUS_OK;
 use NiTE::NiteUserTrackerFrame;
 use NiTE::niteReadUserTrackerFrame;
+use NiTE::niteStartSkeletonTracking;
 
 use termios::Termios;
 use termios::tcgetattr;
@@ -55,9 +57,24 @@ fn main() {
             continue;
         }
 
-        dbg!(userTrackerFrame.userCount);
+        let users = unsafe {std::slice::from_raw_parts(userTrackerFrame.pUser as *mut NiteUserData, userTrackerFrame.userCount as usize)};
 
+        for user in users {
+            updateUserState(*user, userTrackerFrame.timestamp);
+            if user.state & 2 != 0 {
+                println!("Attempting to start Skeleton Tracking...");
+                unsafe {niteStartSkeletonTracking(userTrackerHandle, user.id)};
+            } else if user.skeleton.state == NiTE::NiteSkeletonState_NITE_SKELETON_TRACKED {
+                let head:NiTE::NiteSkeletonJoint = user.skeleton.joints[0];
+                if head.positionConfidence > 0.5 {
+                    println!("{}. ({}, {}, {})", user.id, head.position.x, head.position.y, head.position.z);
+                }
+            }
+        }
     }
+
+    println!("Keyboard Interupt");
+    unsafe {NiTE::niteShutdown()};
 }
 
 fn wasKeyboardHit() -> bool {
@@ -95,13 +112,13 @@ fn wasKeyboardHit() -> bool {
 }
 
 fn updateUserState(user:NiTE::NiteUserData, ts:u64){
-    if user.state + 2 != 0 {
-        println!("New");
-    } else if user.state + 1 != 0 {
-        println!("Visible");
-    } else if user.state + 1 == 0 {
-        println!("Out of scene");
-    } else if user.state + 4 != 0 {
-        println!("Lost");
+    if user.state & 2 != 0 {
+        println!("User #{}: New", user.id);
+    } else if user.state & 1 != 0 {
+        println!("User #{}: Visible", user.id);
+    } else if user.state & 1 == 0 {
+        println!("User #{}: Out of scene", user.id);
+    } else if user.state & 4 != 0 {
+        println!("User #{}: Lost", user.id);
     }
 }
