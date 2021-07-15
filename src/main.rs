@@ -41,6 +41,7 @@ fn main() {
 
     if niteRc != NiteStatus_NITE_STATUS_OK {
         println!("Couldn't create user tracker");
+        dbg!(niteRc);
         std::process::exit(3);
     }
 

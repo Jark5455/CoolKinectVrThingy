@@ -2061,7 +2061,7 @@ fn bindgen_test_layout_nite_UserTrackerFrameRef() {
 #[doc = "@see @ref HandTracker for Gesture and Hand tracking algorithms."]
 #[repr(C)]
 #[derive(Debug)]
-pub struct nite_UserTracker<> {
+pub struct nite_UserTracker {
     pub m_userTrackerHandle: *mut MaybeUninit<NiteUserTracker>,
 }
 
@@ -2096,7 +2096,7 @@ impl nite_UserTracker {
     }
 
     fn isValid(&self) -> bool {
-        return unsafe {*self.m_userTrackerHandle != MaybeUninit::<NiteUserTracker>::uninit()};
+        return !self.m_userTrackerHandle.is_null();
     }
 }
 
