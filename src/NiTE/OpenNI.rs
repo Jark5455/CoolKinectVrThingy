@@ -1087,3 +1087,20 @@ extern "C" {
         pColorY: *mut ::std::os::raw::c_int,
     ) -> OniStatus;
 }
+
+pub struct Device {
+    m_pPlaybackControl: *mut PlaybackControl,
+    m_device: OniDeviceHandle,
+    m_deviceInfo: OniDeviceInfo,
+    m_aSensorInfo: [SensorInfo; 10],
+
+    m_isOwner: bool
+}
+
+pub struct PlaybackControl {
+    m_pDevice: *mut Device
+}
+
+pub struct SensorInfo {
+    m_pInfo: *const OniSensorInfo,
+}
