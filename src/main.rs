@@ -50,7 +50,8 @@ fn main() {
     println!("Start moving around to get detected...");
     println!("(PSI pose may be required for skeleton calibration, depending on the configuration)");
 
-    let mut userTrackerFrame: MaybeUninit<nite_UserTrackerFrameRef> = MaybeUninit::<nite_UserTrackerFrameRef>::uninit();
+    let mut userTrackerFrame: MaybeUninit<nite_UserTrackerFrameRef> =
+        MaybeUninit::<nite_UserTrackerFrameRef>::uninit();
     let mut userTrackerFrameRef = userTrackerFrame.as_mut_ptr();
 
     while (!wasKeyboardHit()) {
