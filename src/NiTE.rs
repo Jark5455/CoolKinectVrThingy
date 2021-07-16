@@ -2062,12 +2062,12 @@ fn bindgen_test_layout_nite_UserTrackerFrameRef() {
 #[repr(C)]
 #[derive(Debug)]
 pub struct nite_UserTracker {
-    pub m_userTrackerHandle: *mut MaybeUninit<NiteUserTracker>,
+    pub m_userTrackerHandle: *mut MaybeUninit<NiteUserTracker>
 }
 
 impl nite_UserTracker {
     pub fn create(&mut self, pDevice: Option<OpenNI::Device>) -> NiteStatus {
-        if (self.isValid()){
+        if self.isValid() {
             return nite_Status_STATUS_OUT_OF_FLOW;
         }
 
@@ -2079,7 +2079,7 @@ impl nite_UserTracker {
     }
 
     pub fn destroy(&mut self){
-        if (self.isValid()){
+        if self.isValid() {
             unsafe {niteShutdownUserTracker((*(self.m_userTrackerHandle)).as_mut_ptr())};
         }
     }
@@ -2096,7 +2096,7 @@ impl nite_UserTracker {
     }
 
     fn isValid(&self) -> bool {
-        return !self.m_userTrackerHandle.is_null();
+        return self.m_userTrackerHandle.is_null();
     }
 }
 
