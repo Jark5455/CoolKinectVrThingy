@@ -23,20 +23,27 @@ use std::thread;
 use std::time;
 
 fn main() {
-    thread::spawn(|| {unsafe { nite4vr::startTracking() }});
-        
+    thread::spawn(|| unsafe { nite4vr::startTracking() });
+
     while (!wasKeyboardHit()) {
         unsafe {
-            if (nite4vr::head.getPosition().x != 0 as f32 || nite4vr::head.getPosition().y != 0 as f32 || nite4vr::head.getPosition().z != 0 as f32)
-            {                
-                println!("({}, {}, {})", nite4vr::head.getPosition().x, nite4vr::head.getPosition().y, nite4vr::head.getPosition().z);                
+            if (nite4vr::head.getPosition().x != 0 as f32
+                || nite4vr::head.getPosition().y != 0 as f32
+                || nite4vr::head.getPosition().z != 0 as f32)
+            {
+                println!(
+                    "({}, {}, {})",
+                    nite4vr::head.getPosition().x,
+                    nite4vr::head.getPosition().y,
+                    nite4vr::head.getPosition().z
+                );
             }
-            
+
             thread::sleep(time::Duration::from_millis(34));
         }
     }
-    
-    unsafe {nite4vr::niteShutdown()};
+
+    unsafe { nite4vr::niteShutdown() };
 }
 
 fn wasKeyboardHit() -> bool {

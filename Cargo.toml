@@ -10,3 +10,7 @@ build = "build.rs"
 termios = "0.3.3"
 libc = "0.2.98"
 libc-stdhandle = "0.1.0"
+
+[dependencies.pyo3]
+version = "0.14.1"
+features = ["auto-initialize"]
