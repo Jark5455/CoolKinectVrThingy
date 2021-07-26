@@ -1,0 +1,8 @@
+{
+	"alwaysActivate": true,
+	"name" : "nite4vr",
+	"directory" : "",
+	"resourceOnly" : false,
+	"prefersUpperDeviceIndices" :  true,
+	"hmd_presence" : []
+}
