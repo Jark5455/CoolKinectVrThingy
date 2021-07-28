@@ -65,9 +65,7 @@ private:
 
 	uint32_t driverId;
 	VRInputComponentHandle_t joystickYHandle;
-	VRInputComponentHandle_t trackpadYHandle;
 	VRInputComponentHandle_t joystickXHandle;
-	VRInputComponentHandle_t trackpadXHandle;
 	
 	VRInputComponentHandle_t buttonC;
 	VRInputComponentHandle_t buttonZ;

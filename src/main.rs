@@ -30,45 +30,21 @@ use pyo3::types::PyTuple;
 use std::env;
 use std::mem::MaybeUninit;
 use std::thread;
-use std::time;
 
 static mut joystick_x: u32 = 130;
 static mut joystick_y: u32 = 130;
 static mut joystick_c: bool = false;
 static mut joystick_z: bool = false;
 
-fn main() {
+fn main() {    
     CoolKinectVrThingy();
 }
 
+#[no_mangle]
 pub extern "C" fn CoolKinectVrThingy() {
     thread::spawn(|| unsafe { nite4vr::startTracking() });
 
     unsafe {thread::spawn(|| {startNunchukListener(&mut joystick_x, &mut joystick_y, &mut joystick_c, &mut joystick_z,).expect("Error occured when starting Nunchuk Listener")})};
-
-    while !wasKeyboardHit() {
-        unsafe {
-            if nite4vr::head.getPosition().x != 0 as f32 || nite4vr::head.getPosition().y != 0 as f32 || nite4vr::head.getPosition().z != 0 as f32 {
-                println!("Head: ({}, {}, {})", nite4vr::head.getPosition().x, nite4vr::head.getPosition().y, nite4vr::head.getPosition().z);
-            }
-
-            if joystick_x != 130 || joystick_y != 130 {
-                println!("Joystick {} {}", joystick_x, joystick_y);
-            }
-
-            if joystick_c {
-                println!("Joystick C");
-            }
-
-            if joystick_z {
-                println!("Joystick Z");
-            }
-
-            thread::sleep(time::Duration::from_millis(34));
-        }
-    }
-
-    unsafe { nite4vr::niteShutdown() };
 }
 
 fn startNunchukListener(x: &mut u32, y: &mut u32, c: &mut bool, z: &mut bool) -> PyResult<()> {
@@ -128,6 +104,11 @@ fn wasKeyboardHit() -> bool {
     }
 
     return false;
+}
+
+#[no_mangle]
+pub extern "C" fn deactivate() {
+    unsafe { nite4vr::niteShutdown() };
 }
 
 #[no_mangle]

@@ -1,6 +1,12 @@
 #include "ControllerDriver.h"
+#include "CoolKinectVrThingy.h"
+
+#include <string.h>
 
 EVRInitError ControllerDriver::Activate(uint32_t unObjectId){
+  
+  CoolKinectVrThingy();
+  
   driverId = unObjectId;
   PropertyContainerHandle_t props = VRProperties()->TrackedDeviceToPropertyContainer(driverId);
   
@@ -28,11 +34,39 @@ DriverPose_t ControllerDriver::GetPose() {
   quat.z = 0;
   
   pose.qWorldFromDriverRotation = quat;
-  pose.qWorldFromDriverRotation = quat;
+  pose.qDriverFromHeadRotation = quat;
   
   return pose;
 }
 
 void ControllerDriver::RunFrame(){
+  VRDriverInput()->UpdateScalarComponent(joystickXHandle, (getJoystickX() - 30.0) / 100.0, 0);
+  VRDriverInput()->UpdateScalarComponent(joystickYHandle, (getJoystickY() - 30.0) / 100.0, 0);
   
+  VRDriverInput()->UpdateBooleanComponent(buttonC, getJoystickC(), 0);
+  VRDriverInput()->UpdateBooleanComponent(buttonZ, getJoystickZ(), 0);
+}
+
+void ControllerDriver::Deactivate() {
+  driverId = k_unTrackedDeviceIndexInvalid;
+  deactivate();
+}
+
+void* ControllerDriver::GetComponent(const char* pchComponentNameAndVersion)
+{
+	if (strcmp(IVRDriverInput_Version, pchComponentNameAndVersion) == 0)
+	{
+		return this;
+	}
+	return NULL;
+}
+
+void ControllerDriver::EnterStandby() {}
+
+void ControllerDriver::DebugRequest(const char* pchRequest, char* pchResponseBuffer, uint32_t unResponseBufferSize) 
+{
+	if (unResponseBufferSize >= 1)
+	{
+		pchResponseBuffer[0] = 0;
+	}
 }
